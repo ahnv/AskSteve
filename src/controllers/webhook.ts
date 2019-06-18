@@ -1,14 +1,71 @@
 import { Response, Request } from "express";
 import request from "request";
 
+const users: any = {};
+
+const previousResponse: any = {};
+
 function handleMessage(sender_psid: any, received_message: any) {
   let response;
-
   if (received_message.text) {
-    response = {
-      "text": `You sent the message: "${received_message.text}".`
+    if (!users[sender_psid]) users[sender_psid] = { id: sender_psid };
+    if (received_message.text == "Hi"){
+      response = {
+        "text": "What is your First Name ?"
+      };
+    } else {
+      if (previousResponse[sender_psid]) {
+        if (previousResponse[sender_psid].text == "What is your First Name ?"){
+          users[sender_psid].name = received_message.text;
+          response = {
+            "text": "What is your Birthdate [YYYY-MM-DD] ?"
+          };
+        }
+
+        if (previousResponse[sender_psid].text == "What is your Birthdate [YYYY-MM-DD] ?") {
+          const birthdate = new Date(received_message.text);
+          if (birthdate instanceof Date && !isNaN(birthdate.getTime())) {
+            users[sender_psid].birthdate = birthdate;
+            response = {
+              "text": "Would you like to know how many days till his next birthday ?",
+              "quick_replies":[
+                {
+                  "content_type": "text",
+                  "title": "Yes",
+                  "payload": "ANSWER_YES"
+                },{
+                  "content_type": "text",
+                  "title": "No",
+                  "payload": "ANSWER_NO"
+                }
+              ]
+            };
+          } else {
+            response = {
+              "text": "What is your Birthdate [YYYY-MM-DD] ?"
+            };
+          }
+        }
+        if (previousResponse[sender_psid].text == "Would you like to know how many days till his next birthday ?") {
+          if (received_message.text == "Yes"){
+            response = {
+              "text": `There are <N> days left until your next birthday.`
+            }
+          } else {
+            response = {
+              "text": `Goodbye.`
+            }
+          }
+          
+        }
+      } else {
+        response = {
+          "text": `You sent the message: "${received_message.text}".`
+        };
+      }
     }
   }
+  previousResponse[sender_psid] = response;
   callSendAPI(sender_psid, response);
 }
 
