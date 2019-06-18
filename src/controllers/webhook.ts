@@ -61,7 +61,7 @@ export class Webhook {
 
 
   static verify(req: Request, res: Response) {
-    const VERIFY_TOKEN = "QXNrU3RldmUK";
+    const VERIFY_TOKEN = process.env.FACEBOOK_VERIFY_TOKEN;
     const mode = req.query["hub.mode"];
     const token = req.query["hub.verify_token"];
     const challenge = req.query["hub.challenge"];

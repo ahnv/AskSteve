@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import mongoose, { mongo } from "mongoose";
 import Message, { MessageModel } from "../models/Message";
 
-export class Messages{
+export class Messages {
 
     static async create(sender_psid: string, text: string) {
         return await new Message({ sender_psid, text }).save();

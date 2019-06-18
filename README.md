@@ -24,7 +24,7 @@ npm start
 - Setup Environment Variables
 ```
 Copy .env.example to .env
-Update the variables MONGODB_URI, FACEBOOK_ID, FACEBOOK_ACCESS_TOKEN
+Update the variables MONGODB_URI, FACEBOOK_ID, FACEBOOK_ACCESS_TOKEN, FACEBOOK_VERIFY_TOKEN
 TEST_USER and BOT_USER_ID are only for test purposes
 ```
 Finally, navigate to `http://localhost:3000` and you should see the home Json!

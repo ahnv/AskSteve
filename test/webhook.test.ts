@@ -4,7 +4,7 @@ import { Webhook } from "../src/controllers/webhook";
 
 describe("GET /webhook", () => {
   it("should return 200 OK", () => {
-    return request(app).get("/webhook?hub.verify_token=QXNrU3RldmUK&hub.challenge=CHALLENGE_ACCEPTED&hub.mode=subscribe")
+    return request(app).get("/webhook?hub.verify_token=" + process.env.FACEBOOK_VERIFY_TOKEN + "&hub.challenge=CHALLENGE_ACCEPTED&hub.mode=subscribe")
         .expect("CHALLENGE_ACCEPTED")
         .expect(200);
   });
