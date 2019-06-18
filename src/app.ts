@@ -8,21 +8,18 @@ import { MONGODB_URI } from "./util/secrets";
 
 dotenv.config({ path: ".env" });
 
-// Controllers (route handlers)
 import * as homeController from "./controllers/home";
 import * as webhookController from "./controllers/webhook";
+import { Messages } from "./controllers/message";
 
-// Create Express server
 const app = express();
 
-// Connect to MongoDB
 const mongoUrl = MONGODB_URI;
 (<any>mongoose).Promise = bluebird;
 mongoose.connect(mongoUrl).then(
   () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */ },
 ).catch(err => {
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
-  // process.exit();
 });
 
 app.set("port", process.env.PORT || 3000);
@@ -30,7 +27,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get("/", homeController.index);
-app.get("/webhook", webhookController.verifyWebhook);
-app.post("/webhook", webhookController.postWebhook);
+app.get("/messages", Messages.read);
+app.get("/messages/:id", Messages.read);
+app.delete("/messages/:id", Messages.delete);
+
+app.get("/webhook", webhookController.Webhook.verify);
+app.post("/webhook", webhookController.Webhook.post);
 
 export default app;
