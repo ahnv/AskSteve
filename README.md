@@ -1,4 +1,5 @@
 # AskSteve    
+![Tests Result](/tests_result.jpg?raw=true "Tests Result")
 
 # Pre-reqs
 To build and run this app locally you will need a few things:
