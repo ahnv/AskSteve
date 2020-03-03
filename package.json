@@ -24,7 +24,7 @@
     "dotenv": "^4.0.0",
     "express": "^4.16.2",
     "lodash": "^4.17.13",
-    "mongoose": "^5.4.2",
+    "mongoose": "^5.7.5",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "winston": "^2.4.0"
